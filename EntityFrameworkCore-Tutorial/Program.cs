@@ -9,10 +9,17 @@ namespace EntityFrameworkCore_Tutorial {
         static void Main(string[] args) {
 
             AppDbContext context = new AppDbContext();
+            //delete a customer
+            var amazon = context.Customers.SingleOrDefault(c => c.Name == "Amazon");
+            if (amazon != null) {
+                context.Customers.Remove(amazon);
+                context.SaveChanges();
+            }
 
-            var max = context.Customers.Find(1);
-            max.Sales += 5000;
-            context.SaveChanges();
+            //adding content change - increase max sales
+           //var max = context.Customers.Find(1);
+            //max.Sales += 5000;
+            //context.SaveChanges();
 
 
             //adding new data doesnt actually add to database must use the context.save changes to add

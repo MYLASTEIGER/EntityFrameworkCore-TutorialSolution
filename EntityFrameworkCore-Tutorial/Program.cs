@@ -9,11 +9,21 @@ namespace EntityFrameworkCore_Tutorial {
         static void Main(string[] args) {
 
             AppDbContext context = new AppDbContext();
+
+
+            var orders = context.Orders.ToList();
+            foreach(var order in orders) {
+                Console.WriteLine($"{order.Id,-5}{order.Description,-10}{order.Total, 10:c}");
+            }
+
+
+
+
             //delete a customer
-            var amazon = context.Customers.SingleOrDefault(c => c.Name == "Amazon");
-            if (amazon != null) {
-                context.Customers.Remove(amazon);
-                context.SaveChanges();
+            //var amazon = context.Customers.SingleOrDefault(c => c.Name == "Amazon");
+           // if (amazon != null) {
+                //context.Customers.Remove(amazon);
+                //context.SaveChanges();
             }
 
             //adding content change - increase max sales
@@ -37,22 +47,21 @@ namespace EntityFrameworkCore_Tutorial {
 
 
             //this below is Query syntax
-            var customers = from cust in context.Customers
+           // var customers = from cust in context.Customers
                                 //where cust.Sales < 100000
-                            select cust;
+            //                select cust;
 
 
             //this below is method syntax
             //List<Customer> customers = context.Customers
             //    .Where(cust => cust.Sales < 100000)                    
             //    .ToList();
-            foreach (var customer in customers) {
-                Console.WriteLine($"{customer.Name, 20} {customer.Sales, 10:c}");
+           // foreach (var customer in customers) {
+            //    Console.WriteLine($"{customer.Name, 20} {customer.Sales, 10:c}");
             }
-
-        }
     }
-}
+    
+
 
     
 

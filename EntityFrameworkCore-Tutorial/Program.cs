@@ -11,19 +11,30 @@ namespace EntityFrameworkCore_Tutorial {
 
             AppDbContext context = new AppDbContext();
 
-            //add a new order for Kroger
-            var kroger = context.Customers.SingleOrDefault(c => c.Name.StartsWith("Kro"));
-            var order = new Order() {
-                Id = 0, Description = "3rd Order", Total = 2500, CustomerId = kroger.Id
-            };
-            context.Orders.Add(order);
-            context.SaveChanges();
-            //read all orders
-            var orders = context.Orders.Include(x => x.Customer).ToList();
+            //retrieve all items
+            var items = context.Items.ToList();
 
-            foreach(var o in orders) {
-                Console.WriteLine($"{o.Id,-5}{o.Description,-10}" +
-                    $"{o.Total, 10:c} {o.Customer.Name}");
+            foreach(var i in items) {
+                i.Price = i.Price * (1 + 0.1m);
+            }
+            context.SaveChanges();
+
+            foreach (var item in items) {
+                Console.WriteLine($"{item.Id} {item.Code} {item.Name} {item.Price:c}");
+            }
+            ////add a new order for Kroger
+            //var kroger = context.Customers.SingleOrDefault(c => c.Name.StartsWith("Kro"));
+            //var order = new Order() {
+            //    Id = 0, Description = "3rd Order", Total = 2500, CustomerId = kroger.Id
+            //};
+            //context.Orders.Add(order);
+            //context.SaveChanges();
+            ////read all orders
+            //var orders = context.Orders.Include(x => x.Customer).ToList();
+
+            //foreach(var o in orders) {
+            //    Console.WriteLine($"{o.Id,-5}{o.Description,-10}" +
+            //        $"{o.Total, 10:c} {o.Customer.Name}");
             }
 
             //delete a customer
@@ -66,7 +77,7 @@ namespace EntityFrameworkCore_Tutorial {
            // foreach (var customer in customers) {
             //    Console.WriteLine($"{customer.Name, 20} {customer.Sales, 10:c}");
             }
-    }
+ 
     
 
 

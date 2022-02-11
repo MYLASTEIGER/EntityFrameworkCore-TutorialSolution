@@ -1,4 +1,5 @@
 ﻿using EntityFrameworkCore_Tutorial.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,20 @@ namespace EntityFrameworkCore_Tutorial {
 
             AppDbContext context = new AppDbContext();
 
+            //add a new order for Kroger
+            var kroger = context.Customers.SingleOrDefault(c => c.Name.StartsWith("Kro"));
+            var order = new Order() {
+                Id = 0, Description = "3rd Order", Total = 2500, CustomerId = kroger.Id
+            };
+            context.Orders.Add(order);
+            context.SaveChanges();
+            //read all orders
+            var orders = context.Orders.Include(x => x.Customer).ToList();
 
-            var orders = context.Orders.ToList();
-            foreach(var order in orders) {
-                Console.WriteLine($"{order.Id,-5}{order.Description,-10}{order.Total, 10:c}");
+            foreach(var o in orders) {
+                Console.WriteLine($"{o.Id,-5}{o.Description,-10}" +
+                    $"{o.Total, 10:c} {o.Customer.Name}");
             }
-
-
-
 
             //delete a customer
             //var amazon = context.Customers.SingleOrDefault(c => c.Name == "Amazon");

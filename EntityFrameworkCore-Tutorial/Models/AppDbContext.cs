@@ -22,6 +22,8 @@ namespace EntityFrameworkCore_Tutorial.Models {
             }
         }
         protected override void OnModelCreating(ModelBuilder builder) {
+            //makes 'code' in items unique
+            builder.Entity<Item>(e => e.HasIndex(x => x.Code).IsUnique(true));
 
         }
     }
